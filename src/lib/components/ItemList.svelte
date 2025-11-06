@@ -1,5 +1,6 @@
 <script>
-  import { estimateItems } from '$lib/stores.js';
+  import { getContext } from 'svelte';
+  const estimateItems = getContext('estimateItems');
   import { flip } from 'svelte/animate';
   import { fade } from 'svelte/transition';
 

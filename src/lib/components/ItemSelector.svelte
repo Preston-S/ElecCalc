@@ -1,36 +1,37 @@
 <script>
-  import { items } from '$lib/data/items.js';
-  import { estimateItems } from '$lib/stores.js';
+  import { getContext } from 'svelte';
+  import { materials } from '$lib/stores.js';
 
-  let selectedItemId = items[0].id;
+  const estimateItems = getContext('estimateItems');
+
+  let selectedItemId = $materials.length > 0 ? $materials[0].id : null;
   let quantity = 1;
 
   function addItem() {
-    const selectedItem = items.find(item => item.id === selectedItemId);
+    if (!selectedItemId) {
+      alert('Please select an item.');
+      return;
+    }
+    const selectedItem = $materials.find(item => item.id === selectedItemId);
     if (!selectedItem) return;
 
-    // Check if the item is already in the cart
     const existingItemIndex = $estimateItems.findIndex(item => item.id === selectedItemId);
 
     if (existingItemIndex > -1) {
-      // Update quantity if item already exists
       $estimateItems[existingItemIndex].quantity += quantity;
-      // Trigger reactivity by reassigning the array
       $estimateItems = [...$estimateItems];
     } else {
-      // Add new item to the cart
       $estimateItems = [...$estimateItems, { ...selectedItem, quantity }];
     }
 
-    // Reset inputs
     quantity = 1;
   }
 </script>
 
 <div class="item-selector">
   <select bind:value={selectedItemId}>
-    {#each items as item (item.id)}
-      <option value={item.id}>{item.name}</option>
+    {#each $materials as material (material.id)}
+      <option value={material.id}>{material.name}</option>
     {/each}
   </select>
   <input type="number" min="1" bind:value={quantity} />
