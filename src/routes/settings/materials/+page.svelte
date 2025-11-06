@@ -1,33 +1,53 @@
 <script>
   import { materials } from '$lib/stores.js';
   import { slide } from 'svelte/transition';
+  import { flip } from 'svelte/animate';
 
+  // State for adding a new item
   let newItemName = '';
-  let newItemPrice = 0;
+  let newItemPrice = null;
+
+  // State for editing an existing item
+  let editingId = null;
+  let editName = '';
+  let editPrice = null;
 
   function addItem() {
-    if (!newItemName || newItemPrice <= 0) {
+    if (!newItemName || !newItemPrice || newItemPrice <= 0) {
       alert('Please enter a valid name and price.');
       return;
     }
-
-    const newItem = {
-      id: Date.now(), // Simple unique ID
-      name: newItemName,
-      price: newItemPrice
-    };
-
+    const newItem = { id: Date.now(), name: newItemName, price: newItemPrice };
     $materials = [...$materials, newItem];
-
-    // Reset form
     newItemName = '';
-    newItemPrice = 0;
+    newItemPrice = null;
   }
 
   function deleteItem(id) {
     if (confirm('Are you sure you want to delete this item?')) {
       $materials = $materials.filter(item => item.id !== id);
     }
+  }
+
+  function startEditing(item) {
+    editingId = item.id;
+    editName = item.name;
+    editPrice = item.price;
+  }
+
+  function cancelEditing() {
+    editingId = null;
+  }
+
+  function saveEdit(id) {
+    if (!editName || !editPrice || editPrice <= 0) {
+      alert('Please enter a valid name and price.');
+      return;
+    }
+    $materials = $materials.map(item => 
+      item.id === id ? { ...item, name: editName, price: editPrice } : item
+    );
+    editingId = null;
   }
 </script>
 
@@ -46,12 +66,28 @@
       <h2>Current Materials</h2>
       <ul class="materials-list">
         {#each $materials as material (material.id)}
-          <li in:slide|local>
-            <div class="item-details">
-              <span class="item-name">{material.name}</span>
-              <span class="item-price">{material.price.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</span>
-            </div>
-            <button class="delete-btn" on:click={() => deleteItem(material.id)}>Delete</button>
+          <li animate:flip={{duration: 300}}>
+            {#if editingId === material.id}
+              <!-- Edit State -->
+              <div class="edit-form">
+                <input type="text" bind:value={editName} class="edit-input" />
+                <input type="number" step="0.01" bind:value={editPrice} class="edit-input price-input" />
+              </div>
+              <div class="item-actions">
+                <button class="save-btn" on:click={() => saveEdit(material.id)}>Save</button>
+                <button class="cancel-btn" on:click={cancelEditing}>Cancel</button>
+              </div>
+            {:else}
+              <!-- Default State -->
+              <div class="item-details">
+                <span class="item-name">{material.name}</span>
+                <span class="item-price">{material.price.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</span>
+              </div>
+              <div class="item-actions">
+                <button class="edit-btn" on:click={() => startEditing(material)}>Edit</button>
+                <button class="delete-btn" on:click={() => deleteItem(material.id)}>Delete</button>
+              </div>
+            {/if}
           </li>
         {/each}
       </ul>
@@ -62,11 +98,11 @@
       <form class="add-form" on:submit|preventDefault={addItem}>
         <div class="form-group">
           <label for="name">Material Name</label>
-          <input id="name" type="text" bind:value={newItemName} />
+          <input id="name" type="text" bind:value={newItemName} placeholder="e.g., 1-Gang Box" />
         </div>
         <div class="form-group">
           <label for="price">Price</label>
-          <input id="price" type="number" step="0.01" bind:value={newItemPrice} />
+          <input id="price" type="number" step="0.01" bind:value={newItemPrice} placeholder="e.g., 2.50" />
         </div>
         <button type="submit" class="add-btn">Add Material</button>
       </form>
@@ -111,10 +147,18 @@
     align-items: center;
     padding: 1rem;
     border-bottom: 1px solid #374151;
+    gap: 1rem;
   }
 
   .materials-list li:last-child {
     border-bottom: none;
+  }
+
+  .item-details, .edit-form {
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
   }
 
   .item-name {
@@ -123,16 +167,36 @@
 
   .item-price {
     color: #9ca3af;
+    margin-left: auto;
+    padding-right: 1rem;
   }
 
-  .delete-btn {
-    background-color: #ef4444;
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 0.375rem;
-    cursor: pointer;
+  .item-actions {
+      display: flex;
+      gap: 0.5rem;
   }
+
+  .edit-input {
+      font-size: 1rem;
+      padding: 0.5rem;
+      border-radius: 0.375rem;
+      border: 1px solid #38bdf8;
+      background-color: #111827;
+      color: #e5e7eb;
+  }
+  .price-input { width: 80px; }
+
+  .edit-btn, .save-btn, .cancel-btn, .delete-btn {
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 0.375rem;
+      cursor: pointer;
+      color: white;
+  }
+  .edit-btn { background-color: #3b82f6; }
+  .save-btn { background-color: #22c55e; }
+  .cancel-btn { background-color: #6b7280; }
+  .delete-btn { background-color: #ef4444; }
 
   .add-form .form-group {
     margin-bottom: 1rem;

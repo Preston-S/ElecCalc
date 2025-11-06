@@ -4,9 +4,9 @@
 
   let taxPercentage;
 
-  // When the store changes, update the local percentage value
+  // When the store changes, update the local percentage value, rounded for display
   taxRate.subscribe(value => {
-    taxPercentage = value * 100;
+    taxPercentage = parseFloat((value * 100).toFixed(4));
   });
 
   // When the user types in the input, update the store
