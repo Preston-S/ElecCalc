@@ -1,49 +1,34 @@
-/// <reference types="@sveltejs/kit" />
-import { build, files, version } from '$service-worker';
-
-const CACHE_NAME = `cache-${version}`;
-
-const ASSETS_TO_CACHE = build.concat(files);
+const CACHE_NAME = 'offline-cache-v1';
+const OFFLINE_URL = '/'; // The main page
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(ASSETS_TO_CACHE);
+      return cache.add(OFFLINE_URL);
     })
   );
+  self.skipWaiting(); // Force activation
 });
 
 self.addEventListener('activate', (event) => {
-  event.waitUntil(
-    caches.keys().then((keys) => {
-      return Promise.all(
-        keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))
-      );
-    })
-  );
+  event.waitUntil(self.clients.claim());
 });
 
 self.addEventListener('fetch', (event) => {
-  if (event.request.method !== 'GET') return;
-
-  event.respondWith(
-    caches.open(CACHE_NAME).then(async (cache) => {
-      const cachedResponse = await cache.match(event.request);
-      if (cachedResponse) {
-        return cachedResponse;
-      }
-
-      try {
-        const networkResponse = await fetch(event.request);
-        if (networkResponse.ok) {
-          cache.put(event.request, networkResponse.clone());
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      (async () => {
+        try {
+          const networkResponse = await fetch(event.request);
+          return networkResponse;
+        } catch (error) {
+          // Network failed, serve the offline page from the cache
+          console.log('Network request failed, serving offline page.');
+          const cache = await caches.open(CACHE_NAME);
+          const cachedResponse = await cache.match(OFFLINE_URL);
+          return cachedResponse;
         }
-        return networkResponse;
-      } catch (error) {
-        // For offline, you might want to return a fallback page here
-        console.error('Fetch failed:', error);
-        throw error;
-      }
-    })
-  );
+      })()
+    );
+  }
 });
