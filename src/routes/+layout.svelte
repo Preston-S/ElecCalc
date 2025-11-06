@@ -2,6 +2,7 @@
   import { page } from '$app/stores';
   import { slide } from 'svelte/transition';
   import './global.css'; // Import global styles
+  import BottomNav from '$lib/components/BottomNav.svelte';
 
   let { children } = $props();
 </script>
@@ -14,10 +15,18 @@
   {/key}
 </div>
 
+<BottomNav />
+
 <style>
   .page-wrapper {
     position: relative;
     width: 100%;
     height: 100%;
+  }
+
+  @media (max-width: 768px) {
+    .page-wrapper {
+      padding-bottom: 60px; /* Height of the nav bar */
+    }
   }
 </style>

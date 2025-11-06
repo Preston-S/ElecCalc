@@ -28,109 +28,98 @@
 
 <div class="container">
   <header>
-    <h1>Electrical Cost Calculator</h1>
-    <p>Welcome! Set your rates below before starting a new estimate.</p>
+    <h1>Settings</h1>
   </header>
 
   <main>
-    <div class="card">
-      <h2>Configuration</h2>
+    <div class="form-section">
       <div class="form-group">
         <label for="labor">Labor Rate ($/hour)</label>
         <input id="labor" type="number" bind:value={$laborRate} />
       </div>
+      <hr />
       <div class="form-group">
         <label for="tax">Tax Rate (%)</label>
         <input id="tax" type="number" step="0.01" value={taxPercentage} on:input={handleTaxInput} />
       </div>
     </div>
 
-    <button class="cta-button" on:click={startEstimate}>
-      Start New Estimate
-    </button>
-
     <a href="settings/materials" class="manage-link">Manage Materials</a>
+
+    <div class="button-container">
+        <button class="cta-button" on:click={startEstimate}>
+          Start New Estimate
+        </button>
+    </div>
   </main>
 </div>
 
 <style>
   .container {
-    max-width: 600px;
+    max-width: 800px;
     margin: 0 auto;
-    padding: 2rem;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    color: #e5e7eb;
-    text-align: center;
+    padding: 1rem;
   }
-
-  header p {
-    color: #9ca3af;
-    font-size: 1.125rem;
+  header {
+      padding: 1rem 0.5rem;
   }
-
-  .card {
-    background-color: #1f2937;
-    border-radius: 0.75rem;
-    padding: 2rem;
-    margin: 2rem 0;
-    text-align: left;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  h1 {
+      font-size: 2rem;
+      font-weight: 600;
   }
-
-  h2 {
-    font-size: 1.5rem;
-    font-weight: 500;
-    margin-top: 0;
-    margin-bottom: 1.5rem;
+  .form-section {
+      background-color: #1c1c1c;
+      border-radius: 0.75rem;
+      border: 1px solid #2f2f2f;
+      padding: 0 1rem;
+      margin: 1rem 0;
   }
-
   .form-group {
-    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
   }
-
+  hr {
+      border: none;
+      border-top: 1px solid #2f2f2f;
+      margin: 0;
+  }
   label {
-    display: block;
-    margin-bottom: 0.5rem;
+    font-size: 1rem;
     font-weight: 500;
-    color: #d1d5db;
   }
-
   input {
-    width: 100%;
-    font-size: 1.125rem;
-    padding: 0.75rem;
-    border-radius: 0.375rem;
-    border: 1px solid #374151;
-    background-color: #374151;
-    color: #e5e7eb;
-    box-sizing: border-box;
-  }
-
-  .cta-button {
-    font-size: 1.25rem;
-    padding: 1rem 2rem;
-    border-radius: 0.5rem;
+    font-size: 1rem;
+    background-color: transparent;
     border: none;
-    background-color: #38bdf8;
-    color: #111827;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    width: 100%;
+    color: #f0f0f0;
+    text-align: right;
+    width: 100px;
   }
-
-  .cta-button:hover {
-    background-color: #7dd3fc;
+  input:focus {
+      outline: none;
   }
-
   .manage-link {
     display: block;
-    margin-top: 1.5rem;
-    color: #38bdf8;
+    text-align: center;
+    color: #888888;
     text-decoration: none;
-    font-size: 1rem;
+    padding: 1rem;
+    margin: 1rem 0;
   }
-  .manage-link:hover {
-    text-decoration: underline;
+  .button-container {
+      margin-top: 2rem;
+  }
+  .cta-button {
+    font-size: 1.1rem;
+    padding: 1rem;
+    border-radius: 0.75rem;
+    border: 1px solid #2f2f2f;
+    background-color: #f0f0f0;
+    color: #101010;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
   }
 </style>

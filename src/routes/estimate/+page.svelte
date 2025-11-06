@@ -42,30 +42,26 @@
 
 <div class="container">
   <header>
-    <a href="../" class="back-link">&larr; Back to Settings</a>
-    <h1>Create Estimate</h1>
+    <h1>New Estimate</h1>
   </header>
 
   <main>
-    <div class="card">
-      <h2>Job Details</h2>
-      <div class="form-group">
-        <label for="hours">Estimated Labor Hours</label>
-        <input id="hours" type="number" step="0.5" bind:value={$estimatedHours} />
-      </div>
+    <div class="section">
+      <label for="hours">Estimated Labor Hours</label>
+      <input id="hours" type="number" step="0.5" bind:value={$estimatedHours} />
     </div>
 
-    <div class="card">
-      <h2>Add Items</h2>
+    <hr />
+
+    <div class="section">
       <ItemSelector />
     </div>
 
-    <div class="card">
-      <h2>Current Items</h2>
+    <div class="item-list-section">
       <ItemList />
     </div>
 
-    <div class="card summary">
+    <div class="summary-section">
       <h2>Running Total</h2>
       <div class="summary-item">
         <span>Subtotal</span>
@@ -77,9 +73,11 @@
       </div>
     </div>
 
-    <button class="cta-button" on:click={reviewReceipt} disabled={$estimateItems.length === 0}>
-      Review Final Receipt
-    </button>
+    <div class="button-container">
+      <button class="cta-button" on:click={reviewReceipt} disabled={$estimateItems.length === 0}>
+        Review Final Receipt
+      </button>
+    </div>
   </main>
 </div>
 
@@ -87,85 +85,78 @@
   .container {
     max-width: 800px;
     margin: 0 auto;
-    padding: 2rem;
+    padding: 1rem;
   }
-  @media (max-width: 600px) {
-    .container {
-      padding: 1rem;
-    }
+  header {
+    padding: 1rem 0.5rem;
   }
-
-  .back-link {
-    display: block;
-    color: #38bdf8;
-    text-decoration: none;
-    margin-bottom: 1rem;
+  h1 {
+    font-size: 2rem;
+    font-weight: 600;
   }
-
-  .card {
-    background-color: #1f2937;
-    border-radius: 0.75rem;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
+  .section {
+    padding: 1rem 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
-
-  h1, h2 {
-    color: #f9fafb;
-    margin-top: 0;
+  .item-list-section, .summary-section {
+      padding: 1rem 0.5rem;
   }
-
-  .form-group {
-    margin-bottom: 1rem;
+  hr {
+    border: none;
+    border-top: 1px solid #2f2f2f;
+    margin: 0;
   }
-
   label {
-    display: block;
-    margin-bottom: 0.5rem;
+    font-size: 1rem;
     font-weight: 500;
   }
-
   input {
-    width: 100%;
     font-size: 1rem;
-    padding: 0.75rem;
-    border-radius: 0.375rem;
-    border: 1px solid #374151;
-    background-color: #374151;
-    color: #e5e7eb;
-    box-sizing: border-box;
+    background-color: transparent;
+    border: none;
+    color: #f0f0f0;
+    text-align: right;
+    width: 100px;
   }
+  input:focus { outline: none; }
 
+  .summary-section h2 {
+      font-size: 1rem;
+      font-weight: 500;
+      color: #888888;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+  }
   .summary-item {
     display: flex;
     justify-content: space-between;
     margin-bottom: 0.75rem;
-    font-size: 1.125rem;
+    font-size: 1rem;
   }
-
   .total {
     font-weight: 600;
-    font-size: 1.25rem;
+    font-size: 1.1rem;
   }
-
+  .button-container {
+      padding: 1rem 0.5rem;
+  }
   .cta-button {
-    font-size: 1.25rem;
-    padding: 1rem 2rem;
-    border-radius: 0.5rem;
-    border: none;
-    background-color: #38bdf8;
-    color: #111827;
+    font-size: 1.1rem;
+    padding: 1rem;
+    border-radius: 0.75rem;
+    border: 1px solid #2f2f2f;
+    background-color: #f0f0f0;
+    color: #101010;
     font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.2s;
     width: 100%;
   }
-
-  .cta-button:hover {
-    background-color: #7dd3fc;
-  }
-
   .cta-button:disabled {
-    background-color: #374151;
+    background-color: #1c1c1c;
+    color: #555;
+    border-color: #2f2f2f;
     cursor: not-allowed;
   }
 </style>

@@ -62,44 +62,14 @@
   </header>
 
   <main>
-    <div class="card">
-      <h2>Current Materials</h2>
-      <ul class="materials-list">
-        {#each $materials as material (material.id)}
-          <li animate:flip={{duration: 300}}>
-            {#if editingId === material.id}
-              <!-- Edit State -->
-              <div class="edit-form">
-                <input type="text" bind:value={editName} class="edit-input" />
-                <input type="number" step="0.01" bind:value={editPrice} class="edit-input price-input" />
-              </div>
-              <div class="item-actions">
-                <button class="save-btn" on:click={() => saveEdit(material.id)}>Save</button>
-                <button class="cancel-btn" on:click={cancelEditing}>Cancel</button>
-              </div>
-            {:else}
-              <!-- Default State -->
-              <div class="item-details">
-                <span class="item-name">{material.name}</span>
-                <span class="item-price">{material.price.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</span>
-              </div>
-              <div class="item-actions">
-                <button class="edit-btn" on:click={() => startEditing(material)}>Edit</button>
-                <button class="delete-btn" on:click={() => deleteItem(material.id)}>Delete</button>
-              </div>
-            {/if}
-          </li>
-        {/each}
-      </ul>
-    </div>
-
-    <div class="card">
+    <div class="section">
       <h2>Add New Material</h2>
       <form class="add-form" on:submit|preventDefault={addItem}>
         <div class="form-group">
-          <label for="name">Material Name</label>
+          <label for="name">Name</label>
           <input id="name" type="text" bind:value={newItemName} placeholder="e.g., 1-Gang Box" />
         </div>
+        <hr />
         <div class="form-group">
           <label for="price">Price</label>
           <input id="price" type="number" step="0.01" bind:value={newItemPrice} placeholder="e.g., 2.50" />
@@ -107,6 +77,37 @@
         <button type="submit" class="add-btn">Add Material</button>
       </form>
     </div>
+
+    <div class="section">
+        <h2>Current Materials</h2>
+        <ul class="materials-list">
+          {#each $materials as material (material.id)}
+            <li animate:flip={{duration: 300}}>
+              {#if editingId === material.id}
+                <!-- Edit State -->
+                <div class="edit-form">
+                  <input type="text" bind:value={editName} class="edit-input" />
+                  <input type="number" step="0.01" bind:value={editPrice} class="edit-input price-input" />
+                </div>
+                <div class="item-actions">
+                  <button class="save-btn" on:click={() => saveEdit(material.id)}>Save</button>
+                  <button class="cancel-btn" on:click={cancelEditing}>Cancel</button>
+                </div>
+              {:else}
+                <!-- Default State -->
+                <div class="item-details">
+                  <span class="item-name">{material.name}</span>
+                  <span class="item-price">{material.price.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</span>
+                </div>
+                <div class="item-actions">
+                  <button class="edit-btn" on:click={() => startEditing(material)}>Edit</button>
+                  <button class="delete-btn" on:click={() => deleteItem(material.id)}>Delete</button>
+                </div>
+              {/if}
+            </li>
+          {/each}
+        </ul>
+      </div>
   </main>
 </div>
 
@@ -114,31 +115,79 @@
   .container {
     max-width: 800px;
     margin: 0 auto;
-    padding: 2rem;
+    padding: 1rem;
   }
-
+  header {
+    padding: 1rem 0.5rem;
+  }
+  h1, h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+  h2 {
+      font-size: 1rem;
+      color: #888888;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+  }
   .back-link {
     display: block;
-    color: #38bdf8;
+    color: #888888;
     text-decoration: none;
     margin-bottom: 1rem;
   }
-
-  .card {
-    background-color: #1f2937;
-    border-radius: 0.75rem;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
+  .section {
+      margin-top: 2rem;
   }
-
-  h1, h2 {
-    color: #f9fafb;
-    margin-top: 0;
+  .add-form {
+      background-color: #1c1c1c;
+      border-radius: 0.75rem;
+      border: 1px solid #2f2f2f;
+      padding: 0 1rem;
+  }
+  .form-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+  }
+  hr {
+      border: none;
+      border-top: 1px solid #2f2f2f;
+      margin: 0;
+  }
+  label {
+    font-size: 1rem;
+    font-weight: 500;
+  }
+  input {
+    font-size: 1rem;
+    background-color: transparent;
+    border: none;
+    color: #f0f0f0;
+    text-align: right;
+  }
+  input:focus { outline: none; }
+  .add-btn {
+    font-size: 1rem;
+    padding: 1rem;
+    border-radius: 0.75rem;
+    border: 1px solid #2f2f2f;
+    background-color: #f0f0f0;
+    color: #101010;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    margin: 1rem 0;
   }
 
   .materials-list {
     list-style: none;
     padding: 0;
+    background-color: #1c1c1c;
+    border-radius: 0.75rem;
+    border: 1px solid #2f2f2f;
   }
 
   .materials-list li {
@@ -146,7 +195,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 1rem;
-    border-bottom: 1px solid #374151;
+    border-bottom: 1px solid #2f2f2f;
     gap: 1rem;
   }
 
@@ -166,7 +215,6 @@
   }
 
   .item-price {
-    color: #9ca3af;
     margin-left: auto;
     padding-right: 1rem;
   }
@@ -180,9 +228,9 @@
       font-size: 1rem;
       padding: 0.5rem;
       border-radius: 0.375rem;
-      border: 1px solid #38bdf8;
-      background-color: #111827;
-      color: #e5e7eb;
+      border: 1px solid #f0f0f0;
+      background-color: #101010;
+      color: #f0f0f0;
   }
   .price-input { width: 80px; }
 
@@ -191,42 +239,11 @@
       padding: 0.5rem 1rem;
       border-radius: 0.375rem;
       cursor: pointer;
-      color: white;
+      color: #101010;
+      font-weight: 600;
   }
-  .edit-btn { background-color: #3b82f6; }
-  .save-btn { background-color: #22c55e; }
-  .cancel-btn { background-color: #6b7280; }
-  .delete-btn { background-color: #ef4444; }
-
-  .add-form .form-group {
-    margin-bottom: 1rem;
-  }
-
-  .add-form label {
-    display: block;
-    margin-bottom: 0.5rem;
-  }
-
-  .add-form input {
-    width: 100%;
-    font-size: 1rem;
-    padding: 0.75rem;
-    border-radius: 0.375rem;
-    border: 1px solid #374151;
-    background-color: #374151;
-    color: #e5e7eb;
-    box-sizing: border-box;
-  }
-
-  .add-btn {
-    width: 100%;
-    padding: 0.75rem;
-    font-size: 1.125rem;
-    background-color: #38bdf8;
-    color: #111827;
-    border: none;
-    border-radius: 0.375rem;
-    cursor: pointer;
-    font-weight: 600;
-  }
+  .edit-btn { background-color: #888888; }
+  .save-btn { background-color: #f0f0f0; }
+  .cancel-btn { background-color: #2f2f2f; color: #f0f0f0; }
+  .delete-btn { background-color: transparent; color: #888888; }
 </style>

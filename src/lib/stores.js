@@ -26,3 +26,6 @@ export const taxRate = persistentStore('taxRate', 0.08); // Default to 8%
 // This will hold the list of materials, persisted in localStorage
 export const materials = persistentStore('materials', defaultItems);
 
+// This will hold an array of saved estimates
+export const estimateHistory = persistentStore('estimateHistory', []);
+
