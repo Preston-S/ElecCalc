@@ -57,7 +57,7 @@
 
 <div class="container">
   <header>
-    <a href="/" class="back-link">&larr; Back to Settings</a>
+    <a href="../" class="back-link">&larr; Back to Settings</a>
     <h1>Manage Materials</h1>
   </header>
 

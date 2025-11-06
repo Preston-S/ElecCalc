@@ -29,7 +29,7 @@
 
 <div class="container">
   <header class="no-print">
-    <a href="/estimate" class="back-link">&larr; Back to Estimate</a>
+    <a href="../estimate" class="back-link">&larr; Back to Estimate</a>
     <h1>Final Receipt</h1>
   </header>
 

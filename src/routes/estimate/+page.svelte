@@ -25,7 +25,7 @@
   }
 
   function reviewReceipt() {
-    goto('/receipt', { state: {
+    goto('receipt', { state: {
       items: $estimateItems,
       subtotal,
       laborCost,
@@ -42,7 +42,7 @@
 
 <div class="container">
   <header>
-    <a href="/" class="back-link">&larr; Back to Settings</a>
+    <a href="../" class="back-link">&larr; Back to Settings</a>
     <h1>Create Estimate</h1>
   </header>
 

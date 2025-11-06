@@ -18,7 +18,7 @@
   }
 
   function startEstimate() {
-    goto('/estimate');
+    goto('estimate');
   }
 </script>
 
@@ -49,7 +49,7 @@
       Start New Estimate
     </button>
 
-    <a href="/settings/materials" class="manage-link">Manage Materials</a>
+    <a href="settings/materials" class="manage-link">Manage Materials</a>
   </main>
 </div>
 
