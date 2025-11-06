@@ -2,6 +2,9 @@
   import { laborRate, taxRate } from '$lib/stores.js';
   import { goto } from '$app/navigation';
 
+  /**
+     * @type {number}
+     */
   let taxPercentage;
 
   // When the store changes, update the local percentage value, rounded for display
@@ -10,8 +13,11 @@
   });
 
   // When the user types in the input, update the store
+  /**
+   * @param {Event & { currentTarget: EventTarget & HTMLInputElement }} e
+   */
   function handleTaxInput(e) {
-    const percentage = parseFloat(e.target.value);
+    const percentage = parseFloat(e.currentTarget.value);
     if (!isNaN(percentage)) {
       $taxRate = percentage / 100;
     }

@@ -3,50 +3,94 @@
 </script>
 
 <nav>
-  <a href="/ElecCalc/history" data-sveltekit-reload class:active={$page.url.pathname.startsWith('/ElecCalc/history')}>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l2 2M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10z"/></svg>
-  </a>
-  <a href="/ElecCalc/estimate" data-sveltekit-reload class:active={$page.url.pathname.startsWith('/ElecCalc/estimate')}>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 20v-8m0-4V4M4 12h16"/></svg>
-  </a>
-  <a href="/ElecCalc/" data-sveltekit-reload class:active={$page.url.pathname === '/ElecCalc' || $page.url.pathname === '/ElecCalc/'}>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v12M6 12h12"/></svg>
-  </a>
+  <div class="nav-content">
+    <a href="/ElecCalc/history" data-sveltekit-reload class:active={$page.url.pathname.startsWith('/ElecCalc/history')} aria-label="History">
+      <img src="/ElecCalc/icons/history.svg" width="24" height="24" alt="" />
+    </a>
+    <a href="/ElecCalc/settings/materials" data-sveltekit-reload class:active={$page.url.pathname === '/ElecCalc/settings/materials' || $page.url.pathname === '/ElecCalc/'} aria-label="Settings">
+      <img src="/ElecCalc/icons/settings.svg" width="24" height="24" alt="" />
+    </a>
+    <div class="center-button">
+      <a href="/ElecCalc/estimate" data-sveltekit-reload class:active={$page.url.pathname.startsWith('/ElecCalc/estimate')} aria-label="New Estimate">
+        <div class="plus-background">
+          <img src="/ElecCalc/icons/plus.svg" width="24" height="24" alt="" />
+        </div>
+      </a>
+    </div>
+  </div>
 </nav>
 
 <style>
   nav {
-    display: none; /* Hidden by default on desktop */
+    display: none;
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    height: 60px;
+    z-index: 100;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
     background-color: #101010;
-    border-top: 1px solid #2f2f2f;
+  }
+
+  .nav-content {
+    height: 60px;
+    display: flex;
     justify-content: space-around;
     align-items: center;
-    z-index: 100;
+    padding: 0 16px;
+    position: relative;
   }
 
   a {
-    color: #888888; /* Grey for inactive icons */
+    color: #888888;
     text-decoration: none;
     display: flex;
     align-items: center;
     justify-content: center;
-    flex: 1;
-    height: 100%;
+    width: 86px;
+    height: 48px;
+    border-radius: 50%;
+  }
+
+  .center-button {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .plus-background {
+    width: 86px;
+    height: 48px;
+    background-color: #333333;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   a.active {
-    color: #f0f0f0; /* White for active icon */
+    color: #ffffff;
+  }
+
+  img {
+    filter: brightness(0) invert(1); /* Convert to white */
+    opacity: 0.5; /* Faded when inactive */
+    transition: opacity 0.2s ease;
+  }
+
+  a.active img {
+    opacity: 1; /* Full white when active */
+  }
+
+  .center-button img {
+    opacity: 1; /* Always full white */
   }
 
   /* Show the nav bar only on mobile screens */
   @media (max-width: 768px) {
     nav {
-      display: flex;
+      display: block;
     }
   }
 </style>
