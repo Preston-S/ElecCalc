@@ -4,19 +4,21 @@
 
 <nav>
   <div class="nav-content">
-    <a href="/ElecCalc/history" data-sveltekit-reload class:active={$page.url.pathname.startsWith('/ElecCalc/history')} aria-label="History">
-      <img src="/ElecCalc/icons/history.svg" width="24" height="24" alt="" />
+    <a class="tab left" href="/ElecCalc/history" data-sveltekit-reload class:active={$page.url.pathname.startsWith('/ElecCalc/history')} aria-label="History">
+      <img src="/ElecCalc/icons/history.svg" width="22" height="22" alt="" />
     </a>
-    <a href="/ElecCalc/settings/materials" data-sveltekit-reload class:active={$page.url.pathname === '/ElecCalc/settings/materials' || $page.url.pathname === '/ElecCalc/'} aria-label="Settings">
-      <img src="/ElecCalc/icons/settings.svg" width="24" height="24" alt="" />
-    </a>
+
     <div class="center-button">
       <a href="/ElecCalc/estimate" data-sveltekit-reload class:active={$page.url.pathname.startsWith('/ElecCalc/estimate')} aria-label="New Estimate">
         <div class="plus-background">
-          <img src="/ElecCalc/icons/plus.svg" width="24" height="24" alt="" />
+          <img src="/ElecCalc/icons/plus.svg" width="26" height="26" alt="" />
         </div>
       </a>
     </div>
+
+    <a class="tab right" href="/ElecCalc/settings/materials" data-sveltekit-reload class:active={$page.url.pathname === '/ElecCalc/settings/materials' || $page.url.pathname === '/ElecCalc/'} aria-label="Settings">
+      <img src="/ElecCalc/icons/settings.svg" width="22" height="22" alt="" />
+    </a>
   </div>
 </nav>
 
@@ -33,58 +35,72 @@
   }
 
   .nav-content {
-    height: 60px;
+    height: 70px; /* taller area to allow center button overlap */
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
-    padding: 0 16px;
+    padding: 0 36px; /* more padding like Threads */
     position: relative;
+    max-width: 900px;
+    margin: 0 auto;
   }
 
-  a {
-    color: #888888;
+  a.tab {
+    color: #ffffff;
     text-decoration: none;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 86px;
-    height: 48px;
-    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    border-radius: 999px;
   }
 
   .center-button {
     position: absolute;
     left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    top: 8px; /* lift the center button above the bar */
+    transform: translateX(-50%);
   }
 
   .plus-background {
-    width: 86px;
-    height: 48px;
-    background-color: #333333;
-    border-radius: 12px;
+    width: 72px;
+    height: 64px;
+    background-color: #1f1f1f; /* slightly lighter than page to pop */
+    border-radius: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+    pointer-events: auto;
+    transition: transform 140ms ease, background-color 140ms ease, box-shadow 140ms ease;
   }
 
-  a.active {
-    color: #ffffff;
+  .center-button a {
+    display: block;
   }
 
-  img {
-    filter: brightness(0) invert(1); /* Convert to white */
-    opacity: 0.5; /* Faded when inactive */
-    transition: opacity 0.2s ease;
+  .center-button a:active .plus-background,
+  .center-button a.active .plus-background {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 26px rgba(0,0,0,0.65);
+    background-color: #2a2a2a;
   }
 
-  a.active img {
-    opacity: 1; /* Full white when active */
+  a.tab img {
+    filter: brightness(0) invert(1);
+    opacity: 0.55; /* faded white when inactive */
+    transition: opacity 180ms ease, transform 120ms ease;
   }
 
-  .center-button img {
-    opacity: 1; /* Always full white */
+  a.tab.active img {
+    opacity: 1; /* full white when active */
+    transform: translateY(-1px);
+  }
+
+  .plus-background img {
+    filter: brightness(0) invert(1);
+    opacity: 1;
   }
 
   /* Show the nav bar only on mobile screens */
