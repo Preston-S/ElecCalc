@@ -1,10 +1,33 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
+import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
-	plugins: [sveltekit()],
+	plugins: [
+		sveltekit(),
+		VitePWA({
+			registerType: 'autoUpdate',
+			includeAssets: ['favicon.ico', 'favicon.png', 'icons/*'],
+			manifest: {
+				name: 'Electrical Calculator',
+				short_name: 'ElecCalc',
+				description: 'Fast electrical estimating on mobile',
+				theme_color: '#101010',
+				background_color: '#101010',
+				display: 'standalone',
+				start_url: '/',
+				icons: [
+					{ src: '/icons/192.png', sizes: '192x192', type: 'image/png' },
+					{ src: '/icons/512.png', sizes: '512x512', type: 'image/png' }
+				]
+			},
+			workbox: {
+				sourcemap: true
+			}
+		})
+	],
 	preview: {
 		https: true,
-		host: true, // Exposes on the network
+		host: true // Exposes on the network
 	}
 });
