@@ -18,12 +18,12 @@
   let swipingItemElement = null; // Reference to the <li> element being swiped
   const SWIPE_THRESHOLD = 50; // Pixels to swipe to trigger revealing the delete button
   const DELETE_BUTTON_WIDTH = 100; // Expected width of the delete button when fully revealed
+  let itemClickBlocked = false; // To prevent click event after successful swipe for deletion
 
   function resetSwipe() {
     if (swipingItemElement) {
       // Smoothly reset the item's position
       swipingItemElement.querySelector('.history-item-wrapper').style.transition = 'transform 0.3s ease-out';
-      // swipingItemElement.querySelector('.delete-button').style.transition = 'width 0.3s ease-out'; // Width is driven by --delete-button-width
       swipingItemElement.style.setProperty('--swipe-offset', '0px');
       swipingItemElement.style.setProperty('--delete-button-width', '0px');
       swipingItemElement = null;
@@ -39,9 +39,10 @@
     swipingItemElement = element;
     startX = (e.touches ? e.touches[0].clientX : e.clientX);
     currentX = startX;
+    itemClickBlocked = false; // Reset click block
+
     // Disable transitions during swipe for immediate feedback
     swipingItemElement.querySelector('.history-item-wrapper').style.transition = 'none';
-    // swipingItemElement.querySelector('.delete-button').style.transition = 'none'; // Width is driven by --delete-button-width
 
     // Add event listeners for mousemove/mouseup on the window to track swipe even if cursor leaves the item
     if (!e.touches && browser) {
@@ -53,9 +54,10 @@
   function handleMove(e) {
     if (!swipingItemElement) return;
 
-    // Prevent scrolling when swiping horizontally
-    // Note: passive:true on touchmove might prevent preventDefault. Remove if needed for full gesture control.
-    // e.preventDefault(); // Uncomment if you need to prevent vertical scroll during horizontal swipe
+    // Prevent scrolling when swiping horizontally on touch devices
+    if (e.touches && e.cancelable) {
+      e.preventDefault();
+    }
 
     currentX = (e.touches ? e.touches[0].clientX : e.clientX);
     let diffX = currentX - startX;
@@ -67,6 +69,10 @@
 
     swipingItemElement.style.setProperty('--swipe-offset', `${diffX}px`);
     swipingItemElement.style.setProperty('--delete-button-width', `${Math.min(DELETE_BUTTON_WIDTH, -diffX)}px`);
+
+    if (Math.abs(diffX) > 5) { // If significant horizontal movement, block click
+        itemClickBlocked = true;
+    }
   }
 
   function handleEnd(e, id) {
@@ -76,10 +82,12 @@
 
     // Re-enable transitions for smooth snap-back/delete animation
     swipingItemElement.querySelector('.history-item-wrapper').style.transition = 'transform 0.3s ease-out';
-    // swipingItemElement.querySelector('.delete-button').style.transition = 'width 0.3s ease-out';
 
-    if (diffX < -SWIPE_THRESHOLD) {
-      // Swiped past threshold, reveal delete button fully
+    // Determine if deletion should occur or if item should snap back
+    if (diffX < -(SWIPE_THRESHOLD + DELETE_BUTTON_WIDTH / 2)) { // Swipe far enough to directly delete
+        deleteEstimateAndResetSwipe(id); // Directly delete, resetSwipe will be called within
+    } else if (diffX < -SWIPE_THRESHOLD) { // Swipe enough to reveal, but not directly delete
+      // Snap to fully revealed position
       swipingItemElement.style.setProperty('--swipe-offset', `-${DELETE_BUTTON_WIDTH}px`);
       swipingItemElement.style.setProperty('--delete-button-width', `${DELETE_BUTTON_WIDTH}px`);
     } else {
@@ -92,12 +100,16 @@
       window.removeEventListener('mousemove', handleMove);
       window.removeEventListener('mouseup', handleEnd);
     }
-
-    swipingItemElement = null; // Clear swiping item reference
+    
+    // Clear swiping item reference only if not pending deletion
+    // If deleted, the element will be removed from DOM
+    if (swipingItemElement && diffX >= -(SWIPE_THRESHOLD + DELETE_BUTTON_WIDTH / 2)) {
+        swipingItemElement = null; // Clear swiping item reference only if not deleted
+    }
   }
 
   function deleteEstimateAndResetSwipe(id) {
-    resetSwipe(); // Ensure item snaps back before deletion animation begins
+    resetSwipe(); // Ensure item snaps back (or is fully revealed) before deletion animation begins
     if (confirm('Are you sure you want to delete this estimate?')) {
       $estimateHistory = $estimateHistory.filter(estimate => estimate.id !== id);
     }
@@ -112,6 +124,14 @@
         window.removeEventListener('mousemove', handleMove);
         window.removeEventListener('mouseup', handleEnd);
       }
+    }
+  }
+
+  // Prevent link navigation if a swipe has occurred
+  function handleLinkClick(e) {
+    if (itemClickBlocked) {
+      e.preventDefault();
+      itemClickBlocked = false; // Reset for next interaction
     }
   }
 
@@ -147,7 +167,7 @@
           >
             <!-- The order changed: delete button is now OUTSIDE the history-item-wrapper -->
             <div class="history-item-wrapper">
-              <a href={`/ElecCalc/history/${estimate.id}`} data-sveltekit-reload class="history-item-link">
+              <a href={`/ElecCalc/history/${estimate.id}`} data-sveltekit-reload class="history-item-link" on:click={handleLinkClick}>
                 <div class="estimate-details">
                   <span class="estimate-name">{estimate.name}</span>
                   <span class="estimate-date">{formatDate(estimate.date)}</span>
