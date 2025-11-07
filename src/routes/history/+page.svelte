@@ -159,6 +159,7 @@
     {:else}
       <ul class="history-list">
         {#each $estimateHistory as estimate (estimate.id)}
+          <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
           <li
             transition:slide|local
             on:touchstart|passive={(e) => handleStart(e, e.currentTarget)}
@@ -168,7 +169,7 @@
           >
             <!-- The order changed: delete button is now OUTSIDE the history-item-wrapper -->
             <div class="history-item-wrapper">
-              <a href={`{base}/history/${estimate.id}`} data-sveltekit-reload class="history-item-link" on:click={handleLinkClick}>
+              <a href={`${base}/history/${estimate.id}`} data-sveltekit-reload class="history-item-link" on:click={handleLinkClick}>
                 <div class="estimate-details">
                   <span class="estimate-name">{estimate.name}</span>
                   <span class="estimate-date">{formatDate(estimate.date)}</span>
