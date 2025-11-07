@@ -74,12 +74,21 @@
     </div>
 
     <div class="button-container">
-      <button class="cta-button" on:click={reviewReceipt} disabled={$estimateItems.length === 0}>
-        Review Final Receipt
-      </button>
+        <button class="cta-button desktop-cta" on:click={reviewReceipt} disabled={$estimateItems.length === 0}>
+          Review Final Receipt
+        </button>
     </div>
   </main>
 </div>
+
+  <!-- Mobile sticky summary bar -->
+  <div class="mobile-summary">
+    <div class="mobile-totals">
+      <div class="mobile-sub">{subtotal.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</div>
+      <div class="mobile-total">{total.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</div>
+    </div>
+    <button class="cta-button mobile-cta" on:click={reviewReceipt} disabled={$estimateItems.length === 0}>Review</button>
+  </div>
 
 <style>
   .container {
@@ -159,4 +168,37 @@
     border-color: #2f2f2f;
     cursor: not-allowed;
   }
+
+  /* Mobile-specific styles */
+  @media (max-width: 600px) {
+    .container { padding: 0.75rem; }
+    .section { flex-direction: column; gap: 0.5rem; align-items: stretch; }
+    label { width: 100%; }
+    input { width: 100%; text-align: left; padding: 0.75rem; border-radius: 0.5rem; background-color: #0f0f0f; border: 1px solid #2f2f2f; }
+    .item-list-section, .summary-section { padding: 0.75rem 0; }
+
+    /* Hide desktop CTA and show mobile sticky bar */
+    .desktop-cta { display: none; }
+    .mobile-summary { display: flex; }
+  }
+
+  /* Mobile summary bar */
+  .mobile-summary {
+    display: none;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: env(safe-area-inset-bottom, 12px);
+    padding: 10px 16px;
+    gap: 12px;
+    background: linear-gradient(180deg, rgba(16,16,16,0.8), rgba(16,16,16,0.95));
+    align-items: center;
+    z-index: 200;
+  }
+
+  .mobile-totals { flex: 1; display:flex; flex-direction:column; gap:2px; }
+  .mobile-sub { font-size: 0.9rem; color: #bdbdbd; }
+  .mobile-total { font-size: 1.1rem; font-weight: 700; }
+
+  .mobile-cta { min-width: 120px; padding: 0.75rem 1rem; border-radius: 0.75rem; }
 </style>

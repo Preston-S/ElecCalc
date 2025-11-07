@@ -38,36 +38,45 @@
     height: 64px; /* adjust to match Threads' nav scale */
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-end; /* align items to bottom so we can lift center */
     padding: 0 28px; /* balanced side padding */
     position: relative;
     max-width: 900px;
     margin: 0 auto;
   }
 
-  a.tab {
-    color: #ffffff;
-    text-decoration: none;
+  /* make each slot take equal space */
+  .nav-content > * {
+    flex: 1 1 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 48px;
-    height: 48px;
+  }
+
+  a.tab {
+    color: #ffffff;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 48px;
+    min-height: 48px;
     border-radius: 999px;
   }
 
   .center-button {
-    position: absolute;
-    left: 50%;
-    top: 6px; /* slight lift */
-    transform: translateX(-50%);
+    position: relative;
+    transform: none; /* no lift */
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .plus-background {
-    width: 64px;
-    height: 56px;
+    width: 56px;
+    height: 48px;
     background-color: #171717; /* slightly lighter than page to pop */
-    border-radius: 14px;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -82,7 +91,7 @@
 
   .center-button a:active .plus-background,
   .center-button a.active .plus-background {
-    transform: translateY(-4px);
+    /* no vertical lift on active; keep subtle visual feedback via color/shadow only */
     box-shadow: 0 10px 26px rgba(0,0,0,0.65);
     background-color: #2a2a2a;
   }
@@ -95,14 +104,13 @@
 
   a.tab.active img {
     opacity: 1; /* full white when active */
-    transform: translateY(-1px);
   }
 
   .plus-background img {
     filter: brightness(0) invert(1);
     opacity: 1;
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
   }
 
   /* Show the nav bar only on mobile screens */
