@@ -31,7 +31,7 @@
     right: 0;
     z-index: 100;
     padding-bottom: env(safe-area-inset-bottom, 0px);
-    background-color: #010101;
+    background-color: #101010;
   }
 
   .nav-content {
