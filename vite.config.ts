@@ -22,7 +22,25 @@ export default defineConfig({
 				]
 			},
 			workbox: {
-				sourcemap: true
+				sourcemap: true,
+				runtimeCaching: [
+					{
+						urlPattern: ({ request }) => request.mode === 'navigate',
+						handler: 'NetworkFirst',
+						options: {
+							cacheName: 'pages-cache',
+							plugins: []
+						}
+					},
+					{
+						urlPattern: ({ url }) => url.origin === self.location.origin && (url.pathname.endsWith('.js') || url.pathname.endsWith('.css')),
+						handler: 'CacheFirst',
+						options: {
+							cacheName: 'assets-cache',
+							plugins: []
+						}
+					}
+				]
 			}
 		})
 	],
