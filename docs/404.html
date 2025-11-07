@@ -6,23 +6,23 @@
 		<link rel="manifest" href="/manifest.json" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
 		
-		<link rel="modulepreload" href="/ElecCalc/_app/immutable/entry/start.CAXn2Jfk.js">
-		<link rel="modulepreload" href="/ElecCalc/_app/immutable/chunks/CSOZXDq1.js">
-		<link rel="modulepreload" href="/ElecCalc/_app/immutable/chunks/nA2Qq2dj.js">
-		<link rel="modulepreload" href="/ElecCalc/_app/immutable/chunks/DtbL72Od.js">
-		<link rel="modulepreload" href="/ElecCalc/_app/immutable/entry/app.BTUhWf46.js">
-		<link rel="modulepreload" href="/ElecCalc/_app/immutable/chunks/Rb4ThKyj.js">
-		<link rel="modulepreload" href="/ElecCalc/_app/immutable/chunks/D4noMUwa.js">
-		<link rel="modulepreload" href="/ElecCalc/_app/immutable/chunks/Bf2jgwR4.js">
-		<link rel="modulepreload" href="/ElecCalc/_app/immutable/chunks/CGGMBYff.js">
-		<link rel="modulepreload" href="/ElecCalc/_app/immutable/chunks/1T43_xop.js">
-		<link rel="modulepreload" href="/ElecCalc/_app/immutable/chunks/CqOoo-Cc.js">
+		<link rel="modulepreload" href="/ElecCalc/_app/immutable/entry/start.DetoSthE.js">
+		<link rel="modulepreload" href="/ElecCalc/_app/immutable/chunks/Di97F_EY.js">
+		<link rel="modulepreload" href="/ElecCalc/_app/immutable/chunks/C7s_4A4C.js">
+		<link rel="modulepreload" href="/ElecCalc/_app/immutable/chunks/eudfWflr.js">
+		<link rel="modulepreload" href="/ElecCalc/_app/immutable/entry/app.DCUuSBMD.js">
+		<link rel="modulepreload" href="/ElecCalc/_app/immutable/chunks/BErm2lkx.js">
+		<link rel="modulepreload" href="/ElecCalc/_app/immutable/chunks/NmPVEbss.js">
+		<link rel="modulepreload" href="/ElecCalc/_app/immutable/chunks/ZSZ7rd2r.js">
+		<link rel="modulepreload" href="/ElecCalc/_app/immutable/chunks/hkl2wCfE.js">
+		<link rel="modulepreload" href="/ElecCalc/_app/immutable/chunks/liZtW19C.js">
+		<link rel="modulepreload" href="/ElecCalc/_app/immutable/chunks/BnFVzCsZ.js">
 	</head>
 	<body data-sveltekit-preload-data="hover">
 		<div style="display: contents">
 			<script>
 				{
-					__sveltekit_1ljii3e = {
+					__sveltekit_bflo2a = {
 						base: "/ElecCalc",
 						assets: "/ElecCalc"
 					};
@@ -30,13 +30,26 @@
 					const element = document.currentScript.parentElement;
 
 					Promise.all([
-						import("/ElecCalc/_app/immutable/entry/start.CAXn2Jfk.js"),
-						import("/ElecCalc/_app/immutable/entry/app.BTUhWf46.js")
+						import("/ElecCalc/_app/immutable/entry/start.DetoSthE.js"),
+						import("/ElecCalc/_app/immutable/entry/app.DCUuSBMD.js")
 					]).then(([kit, app]) => {
 						kit.start(app, element);
 					});
 				}
 			</script>
 		</div>
+        <script>
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker.register('/sw.js')
+                        .then(registration => {
+                            console.log('Service Worker registered: ', registration);
+                        })
+                        .catch(error => {
+                            console.error('Service Worker registration failed: ', error);
+                        });
+                });
+            }
+        </script>
 	</body>
 </html>
