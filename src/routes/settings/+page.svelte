@@ -1,12 +1,12 @@
-<script>
-  import { laborRate, taxRate, materials } from '$lib/stores.js';
-  import { goto } from '$app/navigation';
-  import { slide } from 'svelte/transition';
-  import { flip } from 'svelte/animate';
-
-  /**
-     * @type {number}
-     */
+  <script>
+    import { laborRate, taxRate, materials, companyInfo } from '$lib/stores.js';
+    import { goto } from '$app/navigation';
+    import { slide } from 'svelte/transition';
+    import { flip } from 'svelte/animate';
+  
+    /**
+       * @type {number}
+       */
   let taxPercentage;
 
   // When the store changes, update the local percentage value, rounded for display
@@ -92,6 +92,34 @@
       <div class="form-group">
         <label for="tax">Tax Rate (%)</label>
         <input id="tax" type="number" step="0.01" value={taxPercentage} on:input={handleTaxInput} />
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h2>Company Information</h2>
+      <div class="form-group">
+        <label for="company-name">Company Name</label>
+        <input id="company-name" type="text" bind:value={$companyInfo.name} />
+      </div>
+      <hr />
+      <div class="form-group">
+        <label for="address1">Address Line 1</label>
+        <input id="address1" type="text" bind:value={$companyInfo.address1} />
+      </div>
+      <hr />
+      <div class="form-group">
+        <label for="address2">Address Line 2</label>
+        <input id="address2" type="text" bind:value={$companyInfo.address2} />
+      </div>
+      <hr />
+      <div class="form-group">
+        <label for="phone">Phone</label>
+        <input id="phone" type="text" bind:value={$companyInfo.phone} />
+      </div>
+      <hr />
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input id="email" type="text" bind:value={$companyInfo.email} />
       </div>
     </div>
 

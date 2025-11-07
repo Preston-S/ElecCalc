@@ -2,7 +2,7 @@
   import { page } from '$app/stores';
 </script>
 
-<nav>
+<nav class="no-print">
   <div class="nav-content">
     <a class="tab left" href="/history" class:active={$page.url.pathname.startsWith('/history')} aria-label="History">
       <img src="/icons/history.svg" width="22" height="22" alt="" />

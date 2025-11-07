@@ -29,3 +29,12 @@ export const materials = persistentStore('materials', defaultItems);
 // This will hold an array of saved estimates
 export const estimateHistory = persistentStore('estimateHistory', []);
 
+// This will hold the company information, persisted in localStorage
+export const companyInfo = persistentStore('companyInfo', {
+  name: 'Your Company Name',
+  address1: '123 Main Street',
+  address2: 'Anytown, USA 12345',
+  phone: '555-555-5555',
+  email: 'contact@yourcompany.com'
+});
+

@@ -167,7 +167,7 @@
           >
             <!-- The order changed: delete button is now OUTSIDE the history-item-wrapper -->
             <div class="history-item-wrapper">
-              <a href={`/ElecCalc/history/${estimate.id}`} data-sveltekit-reload class="history-item-link" on:click={handleLinkClick}>
+              <a href={`/history/${estimate.id}`} data-sveltekit-reload class="history-item-link" on:click={handleLinkClick}>
                 <div class="estimate-details">
                   <span class="estimate-name">{estimate.name}</span>
                   <span class="estimate-date">{formatDate(estimate.date)}</span>

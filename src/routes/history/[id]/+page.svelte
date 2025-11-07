@@ -20,7 +20,7 @@
   <title>View Estimate: {estimate ? estimate.name : ''}</title>
 </svelte:head>
 
-<PageHeader title={estimate ? estimate.name : 'Estimate Details'} backHref="/ElecCalc/history" />
+<PageHeader title={estimate ? estimate.name : 'Estimate Details'} backHref="`history" />
 
 <div class="container">
   {#if estimate}

@@ -1,7 +1,7 @@
 <script>
   import { page } from '$app/stores';
   import { onMount } from 'svelte';
-  import { estimateHistory } from '$lib/stores.js';
+  import { estimateHistory, companyInfo } from '$lib/stores.js';
   import PageHeader from '$lib/components/PageHeader.svelte';
 
   let estimate = {
@@ -39,7 +39,7 @@
       ...estimate
     };
     $estimateHistory = [newEstimate, ...$estimateHistory];
-    window.location.href = '/ElecCalc/history'; // Go to history page
+    window.location.href = '/history'; // Go to history page
   }
 </script>
 
@@ -47,30 +47,51 @@
   <title>Final Receipt</title>
 </svelte:head>
 
-<PageHeader title="Final Receipt" backHref="/estimate" />
+<PageHeader title="Final Receipt" backHref="/" />
 
 <div class="container">
   <div class="receipt-details">
+    <header class="receipt-header">
+      <div class="company-logo">
+        <!-- You can replace this with your own logo -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2L2 7l10 5l10-5l-10-5zm0 11.5L3.5 9L12 4.5L20.5 9L12 13.5z"/><path fill="currentColor" d="M2 17l10 5l10-5l-10-5l-10 5zm10 3.5L3.5 16L12 11.5L20.5 16L12 20.5z"/></svg>
+      </div>
+      <div class="company-details">
+        <h2>{$companyInfo.name}</h2>
+        <p>{$companyInfo.address1}<br>{$companyInfo.address2}</p>
+        <p>{$companyInfo.phone} | {$companyInfo.email}</p>
+      </div>
+    </header>
+
     <div class="section">
       <h2>Items</h2>
       {#if estimate.items.length > 0}
-        <ul class="item-list">
-          {#each estimate.items as item (item.id)}
-            <li>
-              <span>{item.name} x {item.quantity}</span>
-              <span>{(item.price * item.quantity).toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</span>
-            </li>
-          {/each}
-        </ul>
+        <table class="item-table">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Quantity</th>
+              <th>Price</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {#each estimate.items as item (item.id)}
+              <tr>
+                <td>{item.name}</td>
+                <td>{item.quantity}</td>
+                <td>{item.price.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
+                <td>{(item.price * item.quantity).toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
+              </tr>
+            {/each}
+          </tbody>
+        </table>
       {:else}
         <p>No items in this estimate.</p>
       {/if}
     </div>
 
-    <hr />
-
-    <div class="section">
-      <h2>Summary</h2>
+    <div class="summary-section">
       <div class="summary-item">
         <span>Subtotal</span>
         <span>{estimate.subtotal.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</span>
@@ -88,6 +109,10 @@
         <span>{estimate.total.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</span>
       </div>
     </div>
+
+    <footer class="receipt-footer">
+      <p>Thank you for your business!</p>
+    </footer>
   </div>
 
   <div class="actions no-print">
@@ -109,38 +134,69 @@
   }
 
   .receipt-details {
-    background-color: #1a1a1a;
-    border-radius: 0.75rem;
-    padding: 1.5rem;
+    background-color: #ffffff;
+    border-radius: 0.5rem;
+    padding: 2rem;
     margin-bottom: 1.5rem;
+    color: #1a1a1a;
   }
 
-  .section {
-    margin-bottom: 1rem;
+  .receipt-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid #e5e7eb;
+    padding-bottom: 1rem;
   }
 
-  .section h2 {
-    font-size: 1.1rem;
+  .company-logo {
+    margin-right: 1rem;
+  }
+
+  .company-details h2 {
+    font-size: 1.5rem;
     font-weight: 600;
-    margin-bottom: 1rem;
-    color: #f0f0f0;
-  }
-
-  .item-list {
-    list-style: none;
-    padding: 0;
     margin: 0;
   }
 
-  .item-list li {
-    display: flex;
-    justify-content: space-between;
-    padding: 0.5rem 0;
-    border-bottom: 1px solid #2f2f2f;
+  .company-details p {
+    margin: 0;
+    color: #6b7280;
   }
 
-  .item-list li:last-child {
-    border-bottom: none;
+  .section {
+    margin-bottom: 1.5rem;
+  }
+
+  .section h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #1a1a1a;
+  }
+
+  .item-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .item-table th, .item-table td {
+    text-align: left;
+    padding: 0.75rem;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .item-table th {
+    color: #6b7280;
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+  }
+
+  .summary-section {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 2px solid #e5e7eb;
   }
 
   .summary-item {
@@ -150,22 +206,22 @@
   }
 
   .summary-item span:first-child {
-    color: #bdbdbd;
+    color: #6b7280;
   }
 
   .summary-item.total {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     font-weight: 700;
-    color: #f0f0f0;
-    border-top: 1px solid #2f2f2f;
-    padding-top: 1rem;
-    margin-top: 1rem;
+    color: #1a1a1a;
+    margin-top: 0.5rem;
   }
 
-  hr {
-    border: none;
-    border-top: 1px solid #2f2f2f;
-    margin: 1.5rem 0;
+  .receipt-footer {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e5e7eb;
+    color: #6b7280;
   }
 
   .actions {
@@ -199,7 +255,7 @@
     padding: 1rem;
     border-radius: 0.75rem;
     border: none;
-    font-weight: 60    0;
+    font-weight: 600;
     cursor: pointer;
     transition: background-color 0.2s;
   }
@@ -225,7 +281,10 @@
   }
 
   @media print {
-    .no-print {
+    body {
+      background-color: #ffffff;
+    }
+    .no-print, PageHeader {
       display: none;
     }
     .container {
@@ -238,7 +297,22 @@
       border-radius: 0;
       padding: 0;
       background-color: transparent;
+      color: #000000;
     }
-    /* ... other print styles ... */
+    .company-details h2, .section h2, .summary-item.total {
+      color: #000000;
+    }
+    .company-details p, .item-table th, .summary-item span:first-child, .receipt-footer {
+      color: #333333;
+    }
+    .item-table th, .item-table td {
+      border-bottom: 1px solid #dddddd;
+    }
+    .summary-section {
+      border-top: 2px solid #dddddd;
+    }
+    .receipt-footer {
+      border-top: 1px solid #dddddd;
+    }
   }
 </style>
