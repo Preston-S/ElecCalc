@@ -4,6 +4,7 @@
   import PageHeader from '$lib/components/PageHeader.svelte';
   import { onMount, onDestroy } from 'svelte';
   import { browser } from '$app/environment'; // Import browser
+  import { base } from '$app/paths';
 
   function formatDate(dateString) {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -149,7 +150,7 @@
   <title>Estimate History</title>
 </svelte:head>
 
-<PageHeader title="Estimate History" backHref="/" />
+<PageHeader title="Estimate History" backHref="{base}/" />
 
 <div class="container">
   <main>
@@ -167,7 +168,7 @@
           >
             <!-- The order changed: delete button is now OUTSIDE the history-item-wrapper -->
             <div class="history-item-wrapper">
-              <a href={`/history/${estimate.id}`} data-sveltekit-reload class="history-item-link" on:click={handleLinkClick}>
+              <a href={`{base}/history/${estimate.id}`} data-sveltekit-reload class="history-item-link" on:click={handleLinkClick}>
                 <div class="estimate-details">
                   <span class="estimate-name">{estimate.name}</span>
                   <span class="estimate-date">{formatDate(estimate.date)}</span>

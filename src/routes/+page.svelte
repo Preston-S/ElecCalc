@@ -5,6 +5,7 @@
   import ItemSelector from '$lib/components/ItemSelector.svelte';
   import ItemList from '$lib/components/ItemList.svelte';
   import { laborRate, taxRate } from '$lib/stores.js';
+  import { base } from '$app/paths';
 
   // Create local stores for this estimate session
   const estimateItems = writable([]);
@@ -25,7 +26,7 @@
   }
 
   function reviewReceipt() {
-    goto('receipt', { state: {
+    goto(`${base}/receipt`, { state: {
       items: $estimateItems,
       subtotal,
       laborCost,
@@ -45,7 +46,7 @@
     <div class="prompt-container">
       <h1>Set Your Labor Rate</h1>
       <p>Before you can create an estimate, you need to set your hourly labor rate.</p>
-      <a href="/settings" class="cta-button">Go to Settings</a>
+      <a href="{base}/settings" class="cta-button">Go to Settings</a>
     </div>
   {:else}
     <main>

@@ -3,6 +3,7 @@
   import { onMount } from 'svelte';
   import { estimateHistory, companyInfo } from '$lib/stores.js';
   import PageHeader from '$lib/components/PageHeader.svelte';
+  import { base } from '$app/paths';
 
   let estimate = {
     items: [],
@@ -39,7 +40,7 @@
       ...estimate
     };
     $estimateHistory = [newEstimate, ...$estimateHistory];
-    window.location.href = '/history'; // Go to history page
+    window.location.href = `${base}/history`; // Go to history page
   }
 </script>
 
@@ -47,7 +48,7 @@
   <title>Final Receipt</title>
 </svelte:head>
 
-<PageHeader title="Final Receipt" backHref="/" />
+<PageHeader title="Final Receipt" backHref="{base}/" />
 
 <div class="container">
   <div class="receipt-details">

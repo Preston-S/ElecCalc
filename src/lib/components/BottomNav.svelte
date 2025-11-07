@@ -1,23 +1,24 @@
 <script>
   import { page } from '$app/stores';
+  import { base } from '$app/paths';
 </script>
 
 <nav class="no-print">
   <div class="nav-content">
-    <a class="tab left" href="/history" class:active={$page.url.pathname.startsWith('/history')} aria-label="History">
-      <img src="/icons/history.svg" width="22" height="22" alt="" />
+    <a class="tab left" href="{base}/history" class:active={$page.url.pathname.startsWith('{base}/history')} aria-label="History">
+      <img src="{base}/icons/history.svg" width="22" height="22" alt="" />
     </a>
 
     <div class="center-button">
-      <a href="/" class:active={$page.url.pathname.startsWith('/')} aria-label="New Estimate">
+      <a href="{base}/" class:active={$page.url.pathname === '{base}/'} aria-label="New Estimate">
         <div class="plus-background">
-          <img src="/icons/plus.svg" width="26" height="26" alt="" />
+          <img src="{base}/icons/plus.svg" width="26" height="26" alt="" />
         </div>
       </a>
     </div>
 
-    <a class="tab right" href="/settings" class:active={$page.url.pathname === '/settings'} aria-label="Settings">
-      <img src="/icons/settings.svg" width="22" height="22" alt="" />
+    <a class="tab right" href="{base}/settings" class:active={$page.url.pathname === '{base}/settings'} aria-label="Settings">
+      <img src="{base}/icons/settings.svg" width="22" height="22" alt="" />
     </a>
   </div>
 </nav>
