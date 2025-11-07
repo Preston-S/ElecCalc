@@ -93,7 +93,11 @@
   .container {
     max-width: 800px;
     margin: 0 auto;
-    padding: 0 1rem 1rem 1rem; /* Adjusted padding */
+    padding: 0 0 1rem; /* Adjusted padding */
+  }
+
+  main {
+    padding: 0 1rem;
   }
 
   .section {
@@ -183,11 +187,17 @@
 
   /* Mobile-specific styles */
   @media (max-width: 600px) {
-    .container { padding: 0 0.75rem 0.75rem 0.75rem; } /* Adjusted padding */
+    .container { padding: 0 0.75rem 0.75rem; } /* Adjusted padding */
     .section { flex-direction: column; gap: 0.5rem; align-items: stretch; }
+    .input-section { align-items: center; }
     label { width: 100%; }
-    input { width: 100%; text-align: left; padding: 0.75rem; border-radius: 0.5rem; background-color: #0f0f0f; border: 1px solid #2f2f2f; }
+    input { width: 100%; text-align: center; padding: 0.6rem; border-radius: 0.5rem; background-color: #0f0f0f; border: 1px solid #2f2f2f; font-size: 0.9rem; }
     .item-list-section, .summary-section { padding: 0.75rem 0; }
+
+    .cta-button {
+      font-size: 1rem;
+      padding: 0.8rem;
+    }
 
     /* Hide desktop CTA and show mobile sticky bar */
     /* .desktop-cta { display: none; } */
@@ -213,5 +223,5 @@
   .mobile-sub { font-size: 0.9rem; color: #bdbdbd; }
   .mobile-total { font-size: 1.1rem; font-weight: 700; }
 
-  .mobile-cta { min-width: 120px; padding: 0.75rem 1rem; border-radius: 0.75rem; }
+  .mobile-cta { padding: 0.75rem 1rem; border-radius: 0.75rem; }
 </style>

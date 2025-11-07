@@ -75,4 +75,42 @@
     font-weight: 600;
     cursor: pointer;
   }
+
+  @media (max-width: 600px) {
+    .item-selector {
+      gap: 0.5rem;
+    }
+
+    select {
+      flex-grow: 1;
+      font-size: 0.9rem;
+      padding: 0.6rem;
+    }
+
+    input {
+      width: 60px; /* Smaller fixed width for mobile */
+      font-size: 0.9rem;
+      padding: 0.6rem;
+      text-align: center;
+    }
+
+    button {
+      padding: 0.6rem 1rem;
+      font-size: 0.9rem;
+    }
+  }
+
+  @media (max-width: 400px) {
+    .item-selector {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    select, input, button {
+      width: 100%;
+      font-size: 0.9rem;
+      padding: 0.6rem;
+      text-align: center;
+    }
+  }
 </style>
