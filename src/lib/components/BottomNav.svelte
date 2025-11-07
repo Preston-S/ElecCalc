@@ -4,19 +4,19 @@
 
 <nav>
   <div class="nav-content">
-    <a class="tab left" href="/ElecCalc/history" data-sveltekit-reload class:active={$page.url.pathname.startsWith('/ElecCalc/history')} aria-label="History">
+    <a class="tab left" href="/ElecCalc/history" class:active={$page.url.pathname.startsWith('/ElecCalc/history')} aria-label="History">
       <img src="/ElecCalc/icons/history.svg" width="22" height="22" alt="" />
     </a>
 
     <div class="center-button">
-      <a href="/ElecCalc/estimate" data-sveltekit-reload class:active={$page.url.pathname.startsWith('/ElecCalc/estimate')} aria-label="New Estimate">
+      <a href="/ElecCalc/estimate" class:active={$page.url.pathname.startsWith('/ElecCalc/estimate')} aria-label="New Estimate">
         <div class="plus-background">
           <img src="/ElecCalc/icons/plus.svg" width="26" height="26" alt="" />
         </div>
       </a>
     </div>
 
-    <a class="tab right" href="/ElecCalc/settings/materials" data-sveltekit-reload class:active={$page.url.pathname === '/ElecCalc/settings/materials' || $page.url.pathname === '/ElecCalc/'} aria-label="Settings">
+    <a class="tab right" href="/ElecCalc/settings/materials" class:active={$page.url.pathname === '/ElecCalc/settings/materials' || $page.url.pathname === '/ElecCalc/'} aria-label="Settings">
       <img src="/ElecCalc/icons/settings.svg" width="22" height="22" alt="" />
     </a>
   </div>

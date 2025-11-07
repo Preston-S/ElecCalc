@@ -15,6 +15,7 @@ export default defineConfig({
 				theme_color: '#101010',
 				background_color: '#101010',
 				display: 'standalone',
+				scope: '/',
 				start_url: '/',
 				icons: [
 					{ src: '/icons/192.png', sizes: '192x192', type: 'image/png' },
@@ -22,6 +23,7 @@ export default defineConfig({
 				]
 			},
 			workbox: {
+				globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
 				sourcemap: true,
 				runtimeCaching: [
 					{

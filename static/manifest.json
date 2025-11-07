@@ -3,6 +3,7 @@
   "short_name": "ElecCalc",
   "description": "A simple calculator to estimate electrical project costs.",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#1f2937",
   "theme_color": "#38bdf8",
