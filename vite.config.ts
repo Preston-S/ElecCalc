@@ -7,7 +7,7 @@ export default defineConfig({
 		sveltekit(),
 		VitePWA({
 			registerType: 'autoUpdate',
-			includeAssets: ['favicon.ico', 'favicon.png', 'icons/*'],
+			includeAssets: ['favicon.ico', 'icons/*'],
 			manifest: {
 				name: 'Electrical Calculator',
 				short_name: 'ElecCalc',
