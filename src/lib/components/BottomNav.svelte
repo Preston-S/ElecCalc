@@ -31,15 +31,15 @@
     right: 0;
     z-index: 100;
     padding-bottom: env(safe-area-inset-bottom, 0px);
-    background-color: #101010;
+    background-color: #010101;
   }
 
   .nav-content {
-    height: 70px; /* taller area to allow center button overlap */
+    height: 64px; /* adjust to match Threads' nav scale */
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 36px; /* more padding like Threads */
+    padding: 0 28px; /* balanced side padding */
     position: relative;
     max-width: 900px;
     margin: 0 auto;
@@ -51,27 +51,27 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 56px;
-    height: 56px;
+    width: 48px;
+    height: 48px;
     border-radius: 999px;
   }
 
   .center-button {
     position: absolute;
     left: 50%;
-    top: 8px; /* lift the center button above the bar */
+    top: 6px; /* slight lift */
     transform: translateX(-50%);
   }
 
   .plus-background {
-    width: 72px;
-    height: 64px;
-    background-color: #1f1f1f; /* slightly lighter than page to pop */
+    width: 64px;
+    height: 56px;
+    background-color: #171717; /* slightly lighter than page to pop */
     border-radius: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+    box-shadow: 0 8px 22px rgba(0,0,0,0.6);
     pointer-events: auto;
     transition: transform 140ms ease, background-color 140ms ease, box-shadow 140ms ease;
   }
@@ -101,6 +101,8 @@
   .plus-background img {
     filter: brightness(0) invert(1);
     opacity: 1;
+    width: 20px;
+    height: 20px;
   }
 
   /* Show the nav bar only on mobile screens */
