@@ -18,7 +18,7 @@ const defaultItems = [
 ];
 
 // This will hold the labor rate, persisted in localStorage
-export const laborRate = persistentStore('laborRate', 100); // Default to $100/hour
+export const laborRate = persistentStore('laborRate', 0); // Default to $0/hour
 
 // This will hold the tax rate, persisted in localStorage
 export const taxRate = persistentStore('taxRate', 0.08); // Default to 8%

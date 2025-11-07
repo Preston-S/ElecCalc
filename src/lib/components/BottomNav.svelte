@@ -4,20 +4,20 @@
 
 <nav>
   <div class="nav-content">
-    <a class="tab left" href="/ElecCalc/history" class:active={$page.url.pathname.startsWith('/ElecCalc/history')} aria-label="History">
-      <img src="/ElecCalc/icons/history.svg" width="22" height="22" alt="" />
+    <a class="tab left" href="/history" class:active={$page.url.pathname.startsWith('/history')} aria-label="History">
+      <img src="/icons/history.svg" width="22" height="22" alt="" />
     </a>
 
     <div class="center-button">
-      <a href="/ElecCalc/estimate" class:active={$page.url.pathname.startsWith('/ElecCalc/estimate')} aria-label="New Estimate">
+      <a href="/" class:active={$page.url.pathname.startsWith('/')} aria-label="New Estimate">
         <div class="plus-background">
-          <img src="/ElecCalc/icons/plus.svg" width="26" height="26" alt="" />
+          <img src="/icons/plus.svg" width="26" height="26" alt="" />
         </div>
       </a>
     </div>
 
-    <a class="tab right" href="/ElecCalc/settings/materials" class:active={$page.url.pathname === '/ElecCalc/settings/materials' || $page.url.pathname === '/ElecCalc/'} aria-label="Settings">
-      <img src="/ElecCalc/icons/settings.svg" width="22" height="22" alt="" />
+    <a class="tab right" href="/settings" class:active={$page.url.pathname === '/settings'} aria-label="Settings">
+      <img src="/icons/settings.svg" width="22" height="22" alt="" />
     </a>
   </div>
 </nav>

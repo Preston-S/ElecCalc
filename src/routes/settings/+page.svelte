@@ -1,7 +1,29 @@
 <script>
-  import { materials } from '$lib/stores.js';
+  import { laborRate, taxRate, materials } from '$lib/stores.js';
+  import { goto } from '$app/navigation';
   import { slide } from 'svelte/transition';
   import { flip } from 'svelte/animate';
+
+  /**
+     * @type {number}
+     */
+  let taxPercentage;
+
+  // When the store changes, update the local percentage value, rounded for display
+  taxRate.subscribe(value => {
+    taxPercentage = parseFloat((value * 100).toFixed(4));
+  });
+
+  // When the user types in the input, update the store
+  /**
+   * @param {Event & { currentTarget: EventTarget & HTMLInputElement }} e
+   */
+  function handleTaxInput(e) {
+    const percentage = parseFloat(e.currentTarget.value);
+    if (!isNaN(percentage)) {
+      $taxRate = percentage / 100;
+    }
+  }
 
   // State for adding a new item
   let newItemName = '';
@@ -52,16 +74,27 @@
 </script>
 
 <svelte:head>
-  <title>Manage Materials</title>
+  <title>Settings - Electrical Calculator</title>
 </svelte:head>
 
 <div class="container">
   <header>
-    <a href="../" class="back-link">&larr; Back to Settings</a>
-    <h1>Manage Materials</h1>
+    <h1>Settings</h1>
   </header>
 
   <main>
+    <div class="form-section">
+      <div class="form-group">
+        <label for="labor">Labor Rate ($/hour)</label>
+        <input id="labor" type="number" bind:value={$laborRate} />
+      </div>
+      <hr />
+      <div class="form-group">
+        <label for="tax">Tax Rate (%)</label>
+        <input id="tax" type="number" step="0.01" value={taxPercentage} on:input={handleTaxInput} />
+      </div>
+    </div>
+
     <div class="section">
       <h2>Add New Material</h2>
       <form class="add-form" on:submit|preventDefault={addItem}>
@@ -108,6 +141,8 @@
           {/each}
         </ul>
       </div>
+
+
   </main>
 </div>
 
@@ -118,33 +153,18 @@
     padding: 1rem;
   }
   header {
-    padding: 1rem 0.5rem;
+      padding: 1rem 0.5rem;
   }
-  h1, h2 {
-    margin: 0;
-    font-size: 1.5rem;
-    font-weight: 600;
+  h1 {
+      font-size: 2rem;
+      font-weight: 600;
   }
-  h2 {
-      font-size: 1rem;
-      color: #888888;
-      text-transform: uppercase;
-      margin-bottom: 1rem;
-  }
-  .back-link {
-    display: block;
-    color: #888888;
-    text-decoration: none;
-    margin-bottom: 1rem;
-  }
-  .section {
-      margin-top: 2rem;
-  }
-  .add-form {
+  .form-section {
       background-color: #1c1c1c;
       border-radius: 0.75rem;
       border: 1px solid #2f2f2f;
       padding: 0 1rem;
+      margin: 1rem 0;
   }
   .form-group {
     display: flex;
@@ -167,6 +187,45 @@
     border: none;
     color: #f0f0f0;
     text-align: right;
+    width: 100px;
+  }
+  input:focus {
+      outline: none;
+  }
+  .button-container {
+      margin-top: 2rem;
+  }
+  .cta-button {
+    font-size: 1.1rem;
+    padding: 1rem;
+    border-radius: 0.75rem;
+    border: 1px solid #2f2f2f;
+    background-color: #f0f0f0;
+    color: #101010;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+  }
+
+  h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+  h2 {
+      font-size: 1rem;
+      color: #888888;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+  }
+  .section {
+      margin-top: 2rem;
+  }
+  .add-form {
+      background-color: #1c1c1c;
+      border-radius: 0.75rem;
+      border: 1px solid #2f2f2f;
+      padding: 0 1rem;
   }
   input:focus { outline: none; }
   .add-btn {
